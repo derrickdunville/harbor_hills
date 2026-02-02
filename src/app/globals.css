@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap");
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- LEAFLET OVERRIDE ENGINE --- */
+
+.lagoon-map.leaflet-container {
+    --lagoon-control-bg: #ffffff;
+    --lagoon-control-fg: #0b2f4a;
+    --lagoon-control-border: rgba(12, 28, 41, 0.16);
+}
+
+[data-theme="dark"] .lagoon-map.leaflet-container,
+.dark .lagoon-map.leaflet-container {
+    --lagoon-control-bg: rgba(13, 20, 24, 0.92);
+    --lagoon-control-fg: #c5d8e6;
+    --lagoon-control-border: rgba(229, 238, 241, 0.16);
+}
+
+.lagoon-map .leaflet-control-zoom a {
+    background: var(--lagoon-control-bg) !important;
+    color: var(--lagoon-control-fg) !important;
+    border: 1px solid var(--lagoon-control-border) !important;
+    box-shadow: none !important;
+}
+
+.lagoon-map .leaflet-control-zoom a:hover,
+.lagoon-map .leaflet-control-zoom a:focus {
+    background: var(--lagoon-control-bg) !important;
+}
+
+.lagoon-map .leaflet-bar {
+    border: 1px solid var(--lagoon-control-border) !important;
+    box-shadow: none !important;
+}
+
+.lagoon-map .leaflet-control-attribution {
+    display: none !important;
+}
+
+.leaflet-control-attribution.leaflet-control {
+    display: none !important;
+}
+
+/* 0. Theme-driven popup variables */
+.leaflet-container .lagoon-popup {
+    --popup-bg: var(--background);
+    --popup-fg: var(--foreground);
+    --popup-border: color-mix(in srgb, var(--foreground) 18%, transparent);
+    --popup-shadow: rgba(0, 0, 0, 0.18);
+}
+
+/* 1. Reset the wrapper (The bubble) */
+.leaflet-container .lagoon-popup .leaflet-popup-content-wrapper {
+    background: var(--popup-bg) !important;
+    color: var(--popup-fg) !important;
+    border-radius: 12px !important;
+    padding: 0 !important; /* Force zero padding */
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: 0 10px 25px var(--popup-shadow) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* 2. KILL THE MARGIN (The specific fix you need) */
+.leaflet-container .lagoon-popup .leaflet-popup-content {
+    margin: 0 !important;             /* Kill the 13px 19px margin */
+    padding: 0 !important;            /* Kill default padding */
+    width: max-content !important;    /* Force box to fit Chakra Stack */
+    line-height: 1 !important;
+    display: block !important;
+}
+
+/* 3. The Arrow (Tip) */
+.leaflet-container .lagoon-popup .leaflet-popup-tip {
+    background: var(--popup-bg) !important;
+    border: 1px solid var(--popup-border) !important;
+    box-shadow: none !important;
+}
+
+/* 4. Hide Default Close Button */
+.leaflet-container .lagoon-popup .leaflet-popup-close-button {
+    display: none !important;
+}
+
+/* --- DARK MODE --- */
+[data-theme="dark"] .leaflet-container .lagoon-popup,
+.dark .leaflet-container .lagoon-popup {
+    --popup-bg: var(--background, #0d141c);
+    --popup-fg: var(--foreground, #e6f2fb);
+    --popup-border: color-mix(in srgb, var(--popup-fg) 25%, transparent);
+    --popup-shadow: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .leaflet-container .lagoon-popup .leaflet-popup-tip,
+.dark .leaflet-container .lagoon-popup .leaflet-popup-tip {
+    background: var(--popup-bg) !important;
+}
