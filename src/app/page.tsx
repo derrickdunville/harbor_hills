@@ -28,7 +28,7 @@ export default function App() {
   const mist = useColorModeValue("#dff1fb", "#132a38")
   const seaDeep = useColorModeValue("#063b6d", "#1f6fa5")
   const inkSoft = useColorModeValue("#1c2f44", "#c5d8e6")
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333"
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || ""
 
   const defaultBoardNotes = {
     badge_text: "Community Updates",

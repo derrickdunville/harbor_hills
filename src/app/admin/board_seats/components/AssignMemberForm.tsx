@@ -27,7 +27,7 @@ export function AssignMemberForm({ boardSeatId, onSuccessAction, currentUserId }
     const user_id = data.user_id.length > 0 ? parseInt(data.user_id[0]) : null;
 
     try {
-      const res = await fetch(`http://localhost:3333/api/board_seats/${boardSeatId}`, {
+      const res = await fetch(`/api/board_seats/${boardSeatId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id }),

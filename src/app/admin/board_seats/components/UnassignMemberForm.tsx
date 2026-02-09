@@ -11,13 +11,13 @@ export function UnassignMemberForm({ boardSeatId, onSuccessAction }: { boardSeat
   // We fetch the slip data to show exactly WHAT is being unassigned
   const { data: board_seat } = useQuery({
     queryKey: ['board_seat', boardSeatId],
-    queryFn: () => fetch(`http://localhost:3333/api/board_seats/${boardSeatId}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/board_seats/${boardSeatId}`).then(res => res.json()),
     enabled: !!boardSeatId
   });
 
   const handleUnassign = async () => {
     try {
-      const res = await fetch(`http://localhost:3333/api/board_seats/${boardSeatId}`, {
+      const res = await fetch(`/api/board_seats/${boardSeatId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: null }),

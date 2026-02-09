@@ -16,7 +16,7 @@ export default function DeleteEventPage() {
     setApiError(null);
 
     try {
-      const res = await fetch(`http://localhost:3333/api/events/${id}`, {
+      const res = await fetch(`/api/events/${id}`, {
         method: "DELETE",
       });
 

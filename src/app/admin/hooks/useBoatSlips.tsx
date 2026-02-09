@@ -20,21 +20,20 @@ export const DEFAULT_BOAT_SLIPS_QUERY: BoatSlipQueryParams = {
 export const fetchBoatSlips = async (params: BoatSlipQueryParams = DEFAULT_BOAT_SLIPS_QUERY) => {
   const { page, pageSize, search, sortKey, sortOrder, available } = params;
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333';
-  const url = new URL(`${baseUrl}/api/boat_slips`);
-
-  url.searchParams.append('page', page.toString());
-  url.searchParams.append('limit', pageSize.toString());
-  url.searchParams.append('search', search);
-  url.searchParams.append('sortKey', sortKey);
-  url.searchParams.append('sortOrder', sortOrder);
+  const query = new URLSearchParams({
+    page: page.toString(),
+    limit: pageSize.toString(),
+    search,
+    sortKey,
+    sortOrder
+  });
 
   // Safe check before appending
   if (available) {
-    url.searchParams.append('available', available);
+    query.append("available", available);
   }
 
-  const res = await fetch(url.toString(), {
+  const res = await fetch(`/api/boat_slips?${query.toString()}`, {
     cache: 'no-store',
   });
 

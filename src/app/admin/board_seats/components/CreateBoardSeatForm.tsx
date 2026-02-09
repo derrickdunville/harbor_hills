@@ -31,7 +31,7 @@ export function CreateBoardSeatForm({ onSuccessAction, onCancelAction }: { onSuc
         ...data,
         responsibilities: data.responsibilities?.trim() || null,
       };
-      const response = await fetch("http://localhost:3333/api/board_seats", {
+      const response = await fetch("/api/board_seats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

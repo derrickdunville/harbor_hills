@@ -20,7 +20,7 @@ export function AssignBoatSlipForm({ homeId, onSuccessAction }: { homeId: string
     const slipId = data.slip_id[0];
 
     try {
-      const res = await fetch(`http://localhost:3333/api/boat_slips/${slipId}`, {
+      const res = await fetch(`/api/boat_slips/${slipId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id: parseInt(homeId) }),

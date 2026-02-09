@@ -17,7 +17,7 @@ export default async function BoardSeatDetailLayout({
   // Prefetch the background data here so it's available on refresh
   await queryClient.prefetchQuery({
     queryKey: ['board_seat', id],
-    queryFn: () => fetch(`http://localhost:3333/api/board_seats/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/board_seats/${id}`).then(res => res.json()),
   });
 
   return (

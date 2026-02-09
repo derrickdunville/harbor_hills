@@ -20,7 +20,7 @@ export function EditUserForm({ id, onSuccessAction, onCancelAction }: { id: stri
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['user', id],
-    queryFn: () => fetch(`http://localhost:3333/api/users/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/users/${id}`).then(res => res.json()),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -42,7 +42,7 @@ export function EditUserForm({ id, onSuccessAction, onCancelAction }: { id: stri
     };
 
     try {
-      const response = await fetch(`http://localhost:3333/api/users/${id}`, {
+      const response = await fetch(`/api/users/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

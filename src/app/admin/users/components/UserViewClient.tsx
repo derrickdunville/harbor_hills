@@ -32,7 +32,7 @@ export const UserViewClient = ({id}: { id: string }) => {
 
   const {data: user, isLoading} = useQuery({
     queryKey: ['user', id],
-    queryFn: () => fetch(`http://localhost:3333/api/users/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/users/${id}`).then(res => res.json()),
   });
 
   const handleCopy = async (text: string) => {

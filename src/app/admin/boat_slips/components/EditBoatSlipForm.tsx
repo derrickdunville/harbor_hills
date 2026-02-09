@@ -22,7 +22,7 @@ export function EditBoatSlipForm({
 
   const { data: slip, isLoading } = useQuery({
     queryKey: ['boat_slip', id],
-    queryFn: () => fetch(`http://localhost:3333/api/boat_slips/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/boat_slips/${id}`).then(res => res.json()),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -34,7 +34,7 @@ export function EditBoatSlipForm({
 
   const onSubmit = async (data: BoatSlipForm) => {
     try {
-      const response = await fetch(`http://localhost:3333/api/boat_slips/${id}`, {
+      const response = await fetch(`/api/boat_slips/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

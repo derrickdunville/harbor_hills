@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Event } from "@/app/admin/types/event";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
 export const fetchEventById = async (id: string): Promise<Event> => {
   const res = await fetch(`${baseUrl}/api/events/${id}`);

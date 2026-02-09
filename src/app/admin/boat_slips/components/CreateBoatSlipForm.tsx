@@ -15,7 +15,7 @@ export function CreateBoatSlipForm({ onSuccessAction, onCancelAction }: { onSucc
 
   const onSubmit = async (data: BoatSlipForm) => {
     try {
-      const response = await fetch("http://localhost:3333/api/boat_slips", {
+      const response = await fetch("/api/boat_slips", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

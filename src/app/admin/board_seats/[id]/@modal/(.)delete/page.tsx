@@ -16,7 +16,7 @@ export default function DeleteBoardSeatModal() {
     setApiError(null); // Reset error state on new attempt
 
     try {
-      const res = await fetch(`http://localhost:3333/api/board_seats/${id}`, {
+      const res = await fetch(`/api/board_seats/${id}`, {
         method: "DELETE",
       });
 

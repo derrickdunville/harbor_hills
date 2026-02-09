@@ -41,7 +41,7 @@ export const fetchBoardSeats = async (params= DEFAULT_BOARD_SEAT_QUERY): Promise
     sortOrder: params.sortOrder,
   });
 
-  const response = await fetch(`http://localhost:3333/api/board_seats?${query}`);
+  const response = await fetch(`/api/board_seats?${query}`);
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -66,7 +66,7 @@ export function useBoardSeats(params: TableQueryParams = DEFAULT_BOARD_SEAT_QUER
  * Shared between the hook and server-side prefetching
  */
 export const fetchBoardSeatById = async (id: string) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
   const res = await fetch(`${baseUrl}/api/board_seats/${id}`);
 
   if (!res.ok) throw new Error('Failed to fetch board seat');

@@ -21,7 +21,7 @@ export function CreateEventForm({
 }) {
   const queryClient = useQueryClient();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<EventForm>();
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const onSubmit = async (data: EventForm) => {
     const payload = {

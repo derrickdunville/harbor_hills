@@ -16,7 +16,7 @@ export default async function HomeDetailLayout({
 
   await queryClient.prefetchQuery({
     queryKey: ['home', id],
-    queryFn: () => fetch(`http://localhost:3333/api/homes/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/homes/${id}`).then(res => res.json()),
   });
 
   return (

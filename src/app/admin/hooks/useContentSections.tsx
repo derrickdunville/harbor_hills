@@ -19,16 +19,17 @@ export const fetchContentSections = async (
   params: TableQueryParams = DEFAULT_CONTENT_SECTIONS_QUERY
 ): Promise<ContentSectionsResponse> => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
-  const url = new URL(`${baseUrl}/api/content_sections`);
+  const query = new URLSearchParams({
+    page: page.toString(),
+    limit: pageSize.toString(),
+    search,
+    sortKey,
+    sortOrder
+  });
 
-  url.searchParams.append("page", page.toString());
-  url.searchParams.append("limit", pageSize.toString());
-  url.searchParams.append("search", search);
-  url.searchParams.append("sortKey", sortKey);
-  url.searchParams.append("sortOrder", sortOrder);
-
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(`/api/content_sections?${query.toString()}`, {
+    cache: "no-store"
+  });
 
   if (!res.ok) throw new Error("Failed to fetch content sections");
   return res.json();

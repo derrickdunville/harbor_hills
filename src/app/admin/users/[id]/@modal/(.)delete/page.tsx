@@ -18,7 +18,7 @@ export default function DeleteUserModal() {
     console.log("handleDelete");
 
     try {
-      const res = await fetch(`http://localhost:3333/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: "DELETE",
       });
 

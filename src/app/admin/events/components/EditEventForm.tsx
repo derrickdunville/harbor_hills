@@ -31,7 +31,7 @@ export function EditEventForm({
   onCancelAction: () => void;
 }) {
   const queryClient = useQueryClient();
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ["event", id],

@@ -18,7 +18,7 @@ export function EditHomeForm({ id, onSuccessAction, onCancelAction }: { id: stri
 
   const { data: home, isLoading } = useQuery({
     queryKey: ['home', id],
-    queryFn: () => fetch(`http://localhost:3333/api/homes/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/homes/${id}`).then(res => res.json()),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -34,7 +34,7 @@ export function EditHomeForm({ id, onSuccessAction, onCancelAction }: { id: stri
 
   const onSubmit = async (data: HomeForm) => {
     try {
-      const response = await fetch(`http://localhost:3333/api/homes/${id}`, {
+      const response = await fetch(`/api/homes/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

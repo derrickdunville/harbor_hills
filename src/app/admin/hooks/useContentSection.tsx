@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ContentSection } from "@/app/admin/types/contentSection";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
 export const fetchContentSectionById = async (id: string): Promise<ContentSection> => {
   const res = await fetch(`${baseUrl}/api/content_sections/${id}`);

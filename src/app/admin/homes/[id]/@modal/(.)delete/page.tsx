@@ -18,7 +18,7 @@ export default function DeleteHomeModal() {
     console.log("handleDelete");
 
     try {
-      const res = await fetch(`http://localhost:3333/api/homes/${id}`, {
+      const res = await fetch(`/api/homes/${id}`, {
         method: "DELETE",
       });
 

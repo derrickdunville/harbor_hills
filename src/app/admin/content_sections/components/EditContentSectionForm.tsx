@@ -24,7 +24,7 @@ export function EditContentSectionForm({
   onCancelAction: () => void;
 }) {
   const queryClient = useQueryClient();
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const { data: section, isLoading } = useQuery<ContentSection>({
     queryKey: ["contentSection", id],

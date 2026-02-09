@@ -7,7 +7,7 @@ export function useBoatSlip(id: string | null) {
     // 2. Define the function explicitly
     queryFn: async () => {
       if (!id) return null;
-      const res = await fetch(`http://localhost:3333/api/boat_slips/${id}`);
+      const res = await fetch(`/api/boat_slips/${id}`);
       if (!res.ok) throw new Error("Network response was not ok");
       return res.json();
     },

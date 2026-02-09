@@ -10,13 +10,13 @@ export function UnassignHomeForm({ slipId, onSuccessAction }: { slipId: string, 
   // We fetch the slip data to show exactly WHAT is being unassigned
   const { data: slip } = useQuery({
     queryKey: ['boat_slip', slipId],
-    queryFn: () => fetch(`http://localhost:3333/api/boat_slips/${slipId}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/boat_slips/${slipId}`).then(res => res.json()),
     enabled: !!slipId
   });
 
   const handleUnassign = async () => {
     try {
-      const res = await fetch(`http://localhost:3333/api/boat_slips/${slipId}`, {
+      const res = await fetch(`/api/boat_slips/${slipId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id: null }),

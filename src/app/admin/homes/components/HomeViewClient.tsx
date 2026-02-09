@@ -19,7 +19,7 @@ import { Home } from "@/app/admin/types/home";
 export const HomeViewClient = ({ id }: { id: string }) => {
   const { data: home, isLoading } = useQuery<Home>({
     queryKey: ['home', id],
-    queryFn: () => fetch(`http://localhost:3333/api/homes/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/homes/${id}`).then(res => res.json()),
   });
 
   if (isLoading) return <Box p="8"><Text>Loading Home Details...</Text></Box>;

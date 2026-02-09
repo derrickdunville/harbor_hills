@@ -8,7 +8,7 @@ export function CreateHomeForm({ onSuccessAction, onCancelAction }: { onSuccessA
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
   const onSubmit = async (data: any) => {
-    const res = await fetch("http://localhost:3333/api/homes", {
+    const res = await fetch("/api/homes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

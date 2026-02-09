@@ -17,13 +17,13 @@ export function RemoveResidentForm({
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['user', userId],
-    queryFn: () => fetch(`http://localhost:3333/api/users/${userId}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/users/${userId}`).then(res => res.json()),
     enabled: !!userId
   });
 
   const handleUnassign = async () => {
     try {
-      const res = await fetch(`http://localhost:3333/api/users/${userId}`, {
+      const res = await fetch(`/api/users/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id: null }),

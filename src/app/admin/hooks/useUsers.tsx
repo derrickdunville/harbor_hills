@@ -20,16 +20,15 @@ export const DEFAULT_USERS_QUERY : TableQueryParams= {
 export const fetchUsers = async (params: TableQueryParams = DEFAULT_USERS_QUERY) => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333';
-  const url = new URL(`${baseUrl}/api/users`);
+  const query = new URLSearchParams({
+    page: page.toString(),
+    limit: pageSize.toString(),
+    search,
+    sortKey,
+    sortOrder
+  });
 
-  url.searchParams.append('page', page.toString());
-  url.searchParams.append('limit', pageSize.toString());
-  url.searchParams.append('search', search);
-  url.searchParams.append('sortKey', sortKey);
-  url.searchParams.append('sortOrder', sortOrder);
-
-  const res = await fetch(url.toString(), {
+  const res = await fetch(`/api/users?${query.toString()}`, {
     cache: 'no-store',
   });
 
@@ -44,4 +43,3 @@ export function useUsers(params: TableQueryParams = DEFAULT_USERS_QUERY) {
     placeholderData: keepPreviousData,
   });
 }
-

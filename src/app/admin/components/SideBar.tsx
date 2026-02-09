@@ -12,9 +12,8 @@ const navItems = [
   { name: "Homes", href: "/admin/homes", icon: LuHouse, color: "purple" },
   { name: "Users", href: "/admin/users", icon: LuUsers, color: "blue" },
   { name: "Boat Slips", href: "/admin/boat_slips", icon: LuSailboat, color: "teal" },
-  { name: "Events", href: "/admin/events", icon: LuCalendarDays, color: "orange" },
   { name: "Board Seats", href: "/admin/board_seats", icon: LuRockingChair, color: "orange" },
-  { name: "Roles", href: "/admin/roles", icon: LuShieldCheck, color: "pink" },
+  { name: "Events", href: "/admin/events", icon: LuCalendarDays, color: "orange" },
   { name: "Content", href: "/admin/content_sections", icon: LuFileText, color: "gray" },
   { name: "Roles", href: "/admin/roles", icon: LuShieldCheck, color: "pink" },
 ]

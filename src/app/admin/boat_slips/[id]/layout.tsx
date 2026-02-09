@@ -17,7 +17,7 @@ export default async function BoatSlipDetailLayout({
   // Prefetch the background data here so it's available on refresh
   await queryClient.prefetchQuery({
     queryKey: ['boat_slip', id],
-    queryFn: () => fetch(`http://localhost:3333/api/boat_slips/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/boat_slips/${id}`).then(res => res.json()),
   });
 
   return (

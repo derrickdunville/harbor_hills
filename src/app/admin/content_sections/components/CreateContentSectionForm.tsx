@@ -26,7 +26,7 @@ export function CreateContentSectionForm({
     },
   });
   const { fields, append, remove } = useFieldArray({ control, name: "items" });
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const onSubmit = async (data: ContentSectionForm) => {
     const payload = {

@@ -13,7 +13,7 @@ export const BoatSlipViewClient = ({id}: { id: string }) => {
   // TODO: make this a hook
   const {data: slip, isLoading} = useQuery({
     queryKey: ['boat_slip', id],
-    queryFn: () => fetch(`http://localhost:3333/api/boat_slips/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/boat_slips/${id}`).then(res => res.json()),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 

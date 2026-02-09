@@ -20,7 +20,7 @@ export function AddResidentForm({ homeId, onSuccessAction }: { homeId: string, o
     const user_id = data.user_id[0];
 
     try {
-      const res = await fetch(`http://localhost:3333/api/users/${user_id}`, {
+      const res = await fetch(`/api/users/${user_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id: parseInt(homeId) }),

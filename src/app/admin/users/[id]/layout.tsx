@@ -20,7 +20,7 @@ export default async function UserDetailLayout({
 
   await queryClient.prefetchQuery({
     queryKey: ['user', id],
-    queryFn: () => fetch(`http://localhost:3333/api/users/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`/api/users/${id}`).then(res => res.json()),
   });
 
   return (

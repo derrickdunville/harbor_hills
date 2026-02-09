@@ -19,7 +19,7 @@ export function UnassignBoatSlipForm({
 
   const handleUnassign = async () => {
     try {
-      const res = await fetch(`http://localhost:3333/api/boat_slips/${slipId}`, {
+      const res = await fetch(`/api/boat_slips/${slipId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id: null }),

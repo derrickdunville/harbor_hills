@@ -25,7 +25,7 @@ export function AssignHomeForm({ slipId, currentHomeId, onSuccessAction }: Assig
     const home_id = data.home_id.length > 0 ? parseInt(data.home_id[0]) : null;
 
     try {
-      const res = await fetch(`http://localhost:3333/api/boat_slips/${slipId}`, {
+      const res = await fetch(`/api/boat_slips/${slipId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home_id }),

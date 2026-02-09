@@ -57,7 +57,7 @@ export function EditBoardSeatForm({ boardSeatId, onSuccessAction, onCancelAction
         ...data,
         responsibilities: data.responsibilities?.trim() || null,
       };
-      const response = await fetch(`http://localhost:3333/api/board_seats/${boardSeatId}`, {
+      const response = await fetch(`/api/board_seats/${boardSeatId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

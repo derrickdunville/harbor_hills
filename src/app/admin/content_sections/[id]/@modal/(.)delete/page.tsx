@@ -11,7 +11,7 @@ export default function DeleteContentSectionModal() {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const [apiError, setApiError] = useState<string | null>(null);
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const handleDelete = async () => {
     setApiError(null);
