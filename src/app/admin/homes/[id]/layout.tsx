@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Box } from "@chakra-ui/react";
-import {HomeViewClient} from "@/app/admin/homes/components/HomeViewClient";
+import { HomeViewClient } from "@/app/admin/homes/components/HomeViewClient";
+import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 export default async function HomeDetailLayout({
                                                      children,
@@ -13,10 +14,11 @@ export default async function HomeDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
+  const baseUrl = getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['home', id],
-    queryFn: () => fetch(`/api/homes/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`${baseUrl}/api/homes/${id}`).then(res => res.json()),
   });
 
   return (

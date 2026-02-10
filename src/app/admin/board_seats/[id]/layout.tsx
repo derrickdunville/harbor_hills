@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Box } from "@chakra-ui/react";
-import {BoardSeatViewClient} from "@/app/admin/board_seats/components/BoardSeatViewClient";
+import { BoardSeatViewClient } from "@/app/admin/board_seats/components/BoardSeatViewClient";
+import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 export default async function BoardSeatDetailLayout({
                                                      children,
@@ -13,11 +14,12 @@ export default async function BoardSeatDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
+  const baseUrl = getServerBaseUrl();
 
   // Prefetch the background data here so it's available on refresh
   await queryClient.prefetchQuery({
     queryKey: ['board_seat', id],
-    queryFn: () => fetch(`/api/board_seats/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`${baseUrl}/api/board_seats/${id}`).then(res => res.json()),
   });
 
   return (

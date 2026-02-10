@@ -17,7 +17,10 @@ export const DEFAULT_USERS_QUERY : TableQueryParams= {
   sortOrder: 'DESC' as const
 };
 
-export const fetchUsers = async (params: TableQueryParams = DEFAULT_USERS_QUERY) => {
+export const fetchUsers = async (
+  params: TableQueryParams = DEFAULT_USERS_QUERY,
+  baseUrl?: string
+) => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
 
   const query = new URLSearchParams({
@@ -28,7 +31,8 @@ export const fetchUsers = async (params: TableQueryParams = DEFAULT_USERS_QUERY)
     sortOrder
   });
 
-  const res = await fetch(`/api/users?${query.toString()}`, {
+  const endpoint = baseUrl ? `${baseUrl}/api/users` : "/api/users";
+  const res = await fetch(`${endpoint}?${query.toString()}`, {
     cache: 'no-store',
   });
 
@@ -41,5 +45,7 @@ export function useUsers(params: TableQueryParams = DEFAULT_USERS_QUERY) {
     queryKey: ['users', params],
     queryFn: () => fetchUsers(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

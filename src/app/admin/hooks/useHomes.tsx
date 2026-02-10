@@ -17,7 +17,7 @@ export const DEFAULT_HOMES_QUERY: TableQueryParams = {
   sortOrder: 'DESC' as const
 };
 
-export const fetchHomes = async (params = DEFAULT_HOMES_QUERY) => {
+export const fetchHomes = async (params = DEFAULT_HOMES_QUERY, baseUrl?: string) => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
 
   const query = new URLSearchParams({
@@ -28,7 +28,8 @@ export const fetchHomes = async (params = DEFAULT_HOMES_QUERY) => {
     sortOrder
   });
 
-  const res = await fetch(`/api/homes?${query.toString()}`, {
+  const endpoint = baseUrl ? `${baseUrl}/api/homes` : "/api/homes";
+  const res = await fetch(`${endpoint}?${query.toString()}`, {
     cache: 'no-store',
   });
 
@@ -41,5 +42,7 @@ export function useHomes(params: TableQueryParams = DEFAULT_HOMES_QUERY) {
     queryKey: ['homes', params],
     queryFn: () => fetchHomes(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

@@ -17,7 +17,10 @@ export const DEFAULT_BOAT_SLIPS_QUERY: BoatSlipQueryParams = {
   available: "false" // Provide a default
 };
 
-export const fetchBoatSlips = async (params: BoatSlipQueryParams = DEFAULT_BOAT_SLIPS_QUERY) => {
+export const fetchBoatSlips = async (
+  params: BoatSlipQueryParams = DEFAULT_BOAT_SLIPS_QUERY,
+  baseUrl?: string
+) => {
   const { page, pageSize, search, sortKey, sortOrder, available } = params;
 
   const query = new URLSearchParams({
@@ -33,7 +36,8 @@ export const fetchBoatSlips = async (params: BoatSlipQueryParams = DEFAULT_BOAT_
     query.append("available", available);
   }
 
-  const res = await fetch(`/api/boat_slips?${query.toString()}`, {
+  const endpoint = baseUrl ? `${baseUrl}/api/boat_slips` : "/api/boat_slips";
+  const res = await fetch(`${endpoint}?${query.toString()}`, {
     cache: 'no-store',
   });
 
@@ -43,9 +47,16 @@ export const fetchBoatSlips = async (params: BoatSlipQueryParams = DEFAULT_BOAT_
 
 // Use the specific interface for the hook
 export function useBoatSlips(params: BoatSlipQueryParams = DEFAULT_BOAT_SLIPS_QUERY) {
+  const normalizedParams = {
+    ...DEFAULT_BOAT_SLIPS_QUERY,
+    ...params
+  };
+
   return useQuery({
-    queryKey: ['boat_slips', params],
-    queryFn: () => fetchBoatSlips(params),
+    queryKey: ['boat_slips', normalizedParams],
+    queryFn: () => fetchBoatSlips(normalizedParams),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

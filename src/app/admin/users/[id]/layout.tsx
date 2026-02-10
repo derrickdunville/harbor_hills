@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Box } from "@chakra-ui/react";
 import {UserViewClient} from "@/app/admin/users/components/UserViewClient";
+import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 // /users/[id]/layout.tsx
 // /users/[id]/page.tsx
@@ -17,10 +18,11 @@ export default async function UserDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
+  const baseUrl = getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['user', id],
-    queryFn: () => fetch(`/api/users/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`${baseUrl}/api/users/${id}`).then(res => res.json()),
   });
 
   return (

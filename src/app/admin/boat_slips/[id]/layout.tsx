@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { BoatSlipViewClient } from '../components/BoatSlipViewClient';
 import { Box } from "@chakra-ui/react";
+import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 export default async function BoatSlipDetailLayout({
                                                      children,
@@ -13,11 +14,12 @@ export default async function BoatSlipDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
+  const baseUrl = getServerBaseUrl();
 
   // Prefetch the background data here so it's available on refresh
   await queryClient.prefetchQuery({
     queryKey: ['boat_slip', id],
-    queryFn: () => fetch(`/api/boat_slips/${id}`).then(res => res.json()),
+    queryFn: () => fetch(`${baseUrl}/api/boat_slips/${id}`).then(res => res.json()),
   });
 
   return (

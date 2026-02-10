@@ -32,7 +32,10 @@ interface BoardSeatsResponse {
 /**
  * Updated Fetcher: Accepts params and builds a query string
  */
-export const fetchBoardSeats = async (params= DEFAULT_BOARD_SEAT_QUERY): Promise<BoardSeatsResponse> => {
+export const fetchBoardSeats = async (
+  params = DEFAULT_BOARD_SEAT_QUERY,
+  baseUrl?: string
+): Promise<BoardSeatsResponse> => {
   const query = new URLSearchParams({
     page: params.page.toString(),
     limit: params.pageSize.toString(),
@@ -41,7 +44,8 @@ export const fetchBoardSeats = async (params= DEFAULT_BOARD_SEAT_QUERY): Promise
     sortOrder: params.sortOrder,
   });
 
-  const response = await fetch(`/api/board_seats?${query}`);
+  const endpoint = baseUrl ? `${baseUrl}/api/board_seats` : "/api/board_seats";
+  const response = await fetch(`${endpoint}?${query.toString()}`);
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -58,6 +62,8 @@ export function useBoardSeats(params: TableQueryParams = DEFAULT_BOARD_SEAT_QUER
     queryKey: ["board_seats", params],
     queryFn: () => fetchBoardSeats(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }
 

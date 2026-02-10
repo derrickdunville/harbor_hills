@@ -6,5 +6,7 @@ export function useAvailableBoatSlips() {
     queryKey: ['boat_slips', 'available'],
     queryFn: () =>
       fetch(`/api/boat_slips?available=true`).then(res => res.json()),
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

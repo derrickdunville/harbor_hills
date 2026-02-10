@@ -17,7 +17,7 @@ export const DEFAULT_ROLES_QUERY: TableQueryParams = {
   sortOrder: 'DESC' as const
 };
 
-export const fetchRoles = async (params = DEFAULT_ROLES_QUERY) => {
+export const fetchRoles = async (params = DEFAULT_ROLES_QUERY, baseUrl?: string) => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
 
   const query = new URLSearchParams({
@@ -28,7 +28,8 @@ export const fetchRoles = async (params = DEFAULT_ROLES_QUERY) => {
     sortOrder
   });
 
-  const res = await fetch(`/api/roles?${query.toString()}`, {
+  const endpoint = baseUrl ? `${baseUrl}/api/roles` : "/api/roles";
+  const res = await fetch(`${endpoint}?${query.toString()}`, {
     cache: 'no-store',
   });
 
@@ -41,5 +42,7 @@ export function useRoles(params:TableQueryParams = DEFAULT_ROLES_QUERY) {
     queryKey: ['roles', params],
     queryFn: () => fetchRoles(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

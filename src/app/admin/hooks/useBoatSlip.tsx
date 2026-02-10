@@ -13,5 +13,7 @@ export function useBoatSlip(id: string | null) {
     },
     // 3. IMPORTANT: Only run if id is truthy
     enabled: !!id,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

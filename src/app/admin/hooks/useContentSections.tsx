@@ -16,7 +16,8 @@ export const DEFAULT_CONTENT_SECTIONS_QUERY: TableQueryParams = {
 };
 
 export const fetchContentSections = async (
-  params: TableQueryParams = DEFAULT_CONTENT_SECTIONS_QUERY
+  params: TableQueryParams = DEFAULT_CONTENT_SECTIONS_QUERY,
+  baseUrl?: string
 ): Promise<ContentSectionsResponse> => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
   const query = new URLSearchParams({
@@ -27,7 +28,8 @@ export const fetchContentSections = async (
     sortOrder
   });
 
-  const res = await fetch(`/api/content_sections?${query.toString()}`, {
+  const endpoint = baseUrl ? `${baseUrl}/api/content_sections` : "/api/content_sections";
+  const res = await fetch(`${endpoint}?${query.toString()}`, {
     cache: "no-store"
   });
 
@@ -40,5 +42,7 @@ export function useContentSections(params: TableQueryParams = DEFAULT_CONTENT_SE
     queryKey: ["contentSections", params],
     queryFn: () => fetchContentSections(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }

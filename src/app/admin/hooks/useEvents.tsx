@@ -15,7 +15,10 @@ export const DEFAULT_EVENTS_QUERY: TableQueryParams = {
   sortOrder: "ASC"
 };
 
-export const fetchEvents = async (params: TableQueryParams = DEFAULT_EVENTS_QUERY): Promise<EventsResponse> => {
+export const fetchEvents = async (
+  params: TableQueryParams = DEFAULT_EVENTS_QUERY,
+  baseUrl?: string
+): Promise<EventsResponse> => {
   const { page, pageSize, search, sortKey, sortOrder } = params;
   const query = new URLSearchParams({
     page: page.toString(),
@@ -25,7 +28,8 @@ export const fetchEvents = async (params: TableQueryParams = DEFAULT_EVENTS_QUER
     sortOrder
   });
 
-  const res = await fetch(`/api/events?${query.toString()}`, { cache: "no-store" });
+  const endpoint = baseUrl ? `${baseUrl}/api/events` : "/api/events";
+  const res = await fetch(`${endpoint}?${query.toString()}`, { cache: "no-store" });
 
   if (!res.ok) throw new Error("Failed to fetch events");
   return res.json();
@@ -36,5 +40,7 @@ export function useEvents(params: TableQueryParams = DEFAULT_EVENTS_QUERY) {
     queryKey: ["events", params],
     queryFn: () => fetchEvents(params),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 30,
+    refetchOnMount: false,
   });
 }
