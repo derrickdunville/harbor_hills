@@ -14,7 +14,7 @@ export default async function HomeDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['home', id],

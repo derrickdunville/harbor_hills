@@ -10,7 +10,7 @@ export default async function EventsLayout({
   modal: React.ReactNode;
 }) {
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ["events", DEFAULT_EVENTS_QUERY],

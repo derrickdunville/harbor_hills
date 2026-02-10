@@ -12,7 +12,7 @@ export default async function UsersLayout(
   }) {
 
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['users', DEFAULT_USERS_QUERY],

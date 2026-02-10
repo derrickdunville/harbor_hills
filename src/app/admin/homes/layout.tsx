@@ -12,7 +12,7 @@ export default async function HomesLayout(
   }) {
 
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['homes', DEFAULT_HOMES_QUERY],

@@ -10,7 +10,7 @@ export default async function ContentSectionsLayout({
   modal: React.ReactNode;
 }) {
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ["contentSections", DEFAULT_CONTENT_SECTIONS_QUERY],

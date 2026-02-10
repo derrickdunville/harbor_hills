@@ -15,7 +15,7 @@ export default async function ContentSectionDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ["contentSection", id],

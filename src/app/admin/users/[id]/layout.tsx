@@ -18,7 +18,7 @@ export default async function UserDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ['user', id],

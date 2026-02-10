@@ -10,7 +10,7 @@ export default async function RolesLayout({
   modal: React.ReactNode;
 }) {
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ["roles", DEFAULT_ROLES_QUERY],

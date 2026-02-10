@@ -7,7 +7,7 @@ import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   await queryClient.prefetchQuery({
     queryKey: ["dashboard-stats"],

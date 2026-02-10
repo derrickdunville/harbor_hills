@@ -14,7 +14,7 @@ export default async function BoardSeatDetailLayout({
 }) {
   const { id } = await params;
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   // Prefetch the background data here so it's available on refresh
   await queryClient.prefetchQuery({

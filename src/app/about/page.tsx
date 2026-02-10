@@ -16,6 +16,7 @@ import { keyframes } from "@emotion/react"
 import { PublicShell } from "@/components/public/PublicShell"
 import { useColorModeValue } from "@/components/ui/color-mode"
 import { useBoardSeats } from "@/app/admin/hooks/useBoardSeats"
+import Link from "next/link"
 
 export default function AboutPage() {
   const { data: boardSeats } = useBoardSeats({
@@ -271,9 +272,11 @@ export default function AboutPage() {
             We welcome volunteers across landscaping, safety, social programming, and lake stewardship.
             New voices are encouraged.
           </Text>
-          <Button as="a" href="mailto:info@harborhills.org" variant="outline" mt={4} borderRadius="full" borderColor={stroke}>
-            Contact the board
-          </Button>
+          <Link href="mailto:info@harborhills.org" passHref legacyBehavior>
+            <Button as="a" variant="outline" mt={4} borderRadius="full" borderColor={stroke}>
+              Contact the board
+            </Button>
+          </Link>
         </Box>
       </Stack>
     </PublicShell>

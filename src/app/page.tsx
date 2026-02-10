@@ -117,12 +117,16 @@ export default function App() {
             and the resources that keep our community connected.
           </Text>
           <HStack gap={3} flexWrap="wrap">
-            <Button as={Link} href="/events" colorScheme="teal" borderRadius="full">
-              See upcoming events
-            </Button>
-            <Button as={Link} href="/about" variant="outline" borderRadius="full" borderColor={stroke}>
-              Learn about the HOA
-            </Button>
+            <Link href="/events" passHref legacyBehavior>
+              <Button as="a" colorScheme="teal" borderRadius="full">
+                See upcoming events
+              </Button>
+            </Link>
+            <Link href="/about" passHref legacyBehavior>
+              <Button as="a" variant="outline" borderRadius="full" borderColor={stroke}>
+                Learn about the HOA
+              </Button>
+            </Link>
           </HStack>
         </Stack>
 
@@ -230,9 +234,11 @@ export default function App() {
             Committees, seasonal projects, and social events make Harbor Hills stronger. Tell us where
             you want to help and we will connect you with the right team.
           </Text>
-          <Button as={Link} href="/about" variant="outline" mt={4} borderRadius="full" borderColor={stroke}>
-            Explore volunteer opportunities
-          </Button>
+          <Link href="/about" passHref legacyBehavior>
+            <Button as="a" variant="outline" mt={4} borderRadius="full" borderColor={stroke}>
+              Explore volunteer opportunities
+            </Button>
+          </Link>
         </Box>
       </Grid>
     </PublicShell>

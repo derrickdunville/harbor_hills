@@ -4,7 +4,7 @@ import { getServerBaseUrl } from "@/app/admin/lib/get-server-base-url";
 
 export default async function BoardSeatsLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
   const queryClient = new QueryClient();
-  const baseUrl = getServerBaseUrl();
+  const baseUrl = await getServerBaseUrl();
 
   console.log("waiting for prefetch");
   await queryClient.prefetchQuery({
