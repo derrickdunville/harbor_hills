@@ -1,0 +1,123 @@
+name: Terraform Nuke
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_cleanup:
+        description: "Type NUKE to confirm."
+        required: true
+        default: "NO"
+      double_confirm:
+        description: "Are you sure you want to NUKE? (YES/NO)"
+        required: true
+        default: "NO"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+  TF_LOCK_TABLE: ${{ vars.TF_LOCK_TABLE }}
+  REPO_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  nuke:
+    runs-on: ubuntu-latest
+
+    steps:
+#      - name: Enforce repo owner only
+#        run: |
+#          if [ "${GITHUB_ACTOR}" != "${GITHUB_REPOSITORY_OWNER}" ]; then
+#            echo "Only the repo owner can run this workflow."
+#            exit 1
+#          fi
+
+      - name: Confirm nuke
+        run: |
+          if [ "${{ github.event.inputs.confirm_cleanup }}" != "NUKE" ] || [ "${{ github.event.inputs.double_confirm }}" != "YES" ]; then
+            echo "Set confirm_cleanup and double_confirm to NUKE to proceed."
+            exit 1
+          fi
+
+      - name: Validate AWS role secret
+        env:
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+        run: |
+          if [ -z "${AWS_ROLE_ARN}" ]; then
+            echo "The AWS_ROLE_ARN is not configured as a secret. You must add the AWS_ROLE_ARN to the repo's secrets. You can provision a new AWS_ROLE_ARN using the aws_account repo."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Resolve state bucket name
+        id: resolve_bucket
+        run: |
+          repo_slug=$(echo "${REPO_NAME}" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9-' '-')
+          repo_slug=$(echo "${repo_slug}" | sed -E 's/^-+//; s/-+$//')
+          bucket_prefix="${repo_slug}-tfstate-"
+          existing=$(aws s3api list-buckets --query "Buckets[].Name" --output text | tr '\t' '\n' | grep "^${bucket_prefix}[0-9a-f]\\{4\\}$" | head -n1)
+          if [ -z "${existing}" ]; then
+            echo "No state bucket found for prefix ${bucket_prefix}."
+            exit 1
+          fi
+          echo "TF_STATE_BUCKET=${existing}" >> "$GITHUB_ENV"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform init (infra)
+        run: |
+          backend_args=(
+            "-backend-config=bucket=${TF_STATE_BUCKET}"
+            "-backend-config=key=infra/terraform.tfstate"
+            "-backend-config=region=${AWS_REGION}"
+          )
+          if [ -n "${TF_LOCK_TABLE}" ]; then
+            backend_args+=("-backend-config=dynamodb_table=${TF_LOCK_TABLE}")
+          fi
+          terraform -chdir=terraform/infra init "${backend_args[@]}"
+
+      - name: Terraform destroy (infra)
+        run: terraform -chdir=terraform/infra destroy -auto-approve -var="aws_region=${AWS_REGION}"
+
+      - name: Empty state bucket
+        run: |
+          aws s3api list-object-versions --bucket "${TF_STATE_BUCKET}" --output json > /tmp/versions.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/versions.json").read_text())
+          objects = []
+          for item in data.get("Versions", []):
+            objects.append({"Key": item["Key"], "VersionId": item["VersionId"]})
+          for item in data.get("DeleteMarkers", []):
+            objects.append({"Key": item["Key"], "VersionId": item["VersionId"]})
+          if objects:
+            payload = {"Objects": objects, "Quiet": True}
+            Path("/tmp/delete.json").write_text(json.dumps(payload))
+          PY
+          if [ -f /tmp/delete.json ]; then
+            aws s3api delete-objects --bucket "${TF_STATE_BUCKET}" --delete file:///tmp/delete.json
+          else
+            echo "No objects found in ${TF_STATE_BUCKET}."
+          fi
+
+      - name: Delete state bucket
+        run: aws s3api delete-bucket --bucket "${TF_STATE_BUCKET}"
+
+      - name: Delete lock table
+        if: env.TF_LOCK_TABLE != ''
+        run: |
+          aws dynamodb delete-table --table-name "${TF_LOCK_TABLE}" || true

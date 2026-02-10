@@ -42,6 +42,7 @@ yarn-error.log*
 next-env.d.ts
 
 .idea
+/.idea
 
 package-lock.json
 */package-lock.json
